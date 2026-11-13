@@ -1,57 +1,95 @@
-# ♟ Xadrucas · Arena dos Mestres
+# Xadrucas: Arena dos Impossíveis · v0.3 Playtest
 
-MVP **v0.2** de xadrez de arena 2D, pensado para duas pessoas.
+O xadrez define *quem pode desafiar quem*. A captura só acontece depois de um **combate 2D controlado pelos jogadores**. Esta versão substitui o MVP de poderes visuais do tabuleiro por uma arena com regras próprias.
 
-## Jogar
+**Jogar:** https://tombemol.github.io/Xadrucas/
 
-Após ativar o GitHub Pages, acesse:
+## Como jogar
 
-**https://tombemol.github.io/Xadrucas/**
+1. Escolha **Duelo local** (mesmo teclado), **Online** (dois navegadores) ou **Campanha** (contra IA básica).
+2. Faça movimentos legais no tabuleiro. Ao selecionar uma captura, o jogo pausa o relógio e abre uma arena 2D.
+3. O vencedor da luta decide a captura. Se o atacante ganhar, captura normalmente. Se o defensor ganhar, o atacante escolhe:
+   - **Recuar:** mantém a peça onde estava, mas perde a vez.
+   - **Tudo ou nada:** enfrenta outra luta. Se perder, perde a própria peça atacante. Se vencer, captura a defensora.
+4. A assistência histórica é utilizável **uma vez por luta**. O dano, a distância e a velocidade dependem do tipo da peça.
 
-### Mesmo computador
-Escolha os mestres, o cenário inicial, o tempo e clique **Iniciar duelo local**.
+### Controles na luta
 
-### Em computadores diferentes (experimental)
-1. Abra a página e selecione **Com amigo online**.
-2. O anfitrião escolhe o personagem e clica **Criar sala**.
-3. Clique **Copiar link para Lucas** e envie o convite.
-4. O segundo jogador abre o link, escolhe personagem e clica **Entrar na sala**.
-5. Mantenham as duas abas abertas durante a partida. Não há contas ou persistência de sala.
+| Ação | Brancas locais | Pretas locais | Online / campanha |
+|---|---|---|---|
+| Andar | A / D | ← / → | A / D |
+| Pular | W | ↑ | W |
+| Ataque leve | F | J | F |
+| Especial / pesado | G | K | G |
+| Assistência | H | L | H |
+| Defender | S | ↓ | S |
 
-O GitHub Pages hospeda apenas arquivos estáticos. Para a conexão P2P (WebRTC), esta versão usa **PeerJS 1.5.5** e o servidor público gratuito de sinalização do PeerJS. Isso não é um servidor nosso nem oferece disponibilidade garantida; determinadas redes/NATs podem impedir conexão direta. Os lances são validados no navegador do anfitrião, que é autoritativo dentro da sala, portanto **não há proteção contra trapaças do anfitrião**. O modo local funciona sem PeerJS, porém a biblioteca de xadrez é carregada via CDN e exige internet.
+Em dispositivos móveis há botões de toque para o jogador local, para o modo online e para a campanha. No duelo local com dois humanos, um **teclado físico** é recomendado.
 
-## Regras
-- Quatro cenários espelhados: Duelo dos Reis, Fortaleza, Conselho Arcano, Guerra Relâmpago.
-- 1, 3, 5 ou 10 minutos por jogador.
-- Motor de regras **chess.js**, com movimentação legal, xeque, xeque-mate, roque, promoção, en passant, repetição e empate.
-- Quatro mestres: Einstein (+10s), Turing (casas ameaçadas), Franklin (peças adversárias vulneráveis), Capablanca (suas peças sob ameaça).
-- Cada habilidade é usada uma única vez por partida na própria vez. As habilidades têm balanceamento **experimental**.
-- Partidas online geram código temporário; revanche depende de ambos aceitarem.
+### Classes
 
-## Implantação no GitHub Pages
-O repositório contém o site estático na raiz e um workflow de implantação automática. Para habilitar **uma única vez**:
-1. Acesse **Settings → Pages**.
-2. Em **Build and deployment → Source**, selecione **GitHub Actions**.
-3. Acompanhe **Actions → Publicar Xadrucas**. Se a primeira execução falhou antes de habilitar o Pages, clique em **Re-run jobs**.
-4. Quando o deploy ficar verde, abra https://tombemol.github.io/Xadrucas/.
+- Peão: **Vanguarda**, rápido e com golpes curtos.
+- Cavalo: **Cavaleiro**, ágil e com alcance maior.
+- Bispo: **Arcano**, conjura projéteis no especial.
+- Torre: **Bastião**, tanque resistente e lento.
+- Dama: **Imperatriz**, versátil e com magia.
+- Rei: **Soberano**, equilibrado, com golpe pesado.
 
-## Arquivos
-- `index.html`: estrutura da interface.
-- `style.css`: tema e efeitos 2D.
-- `app.js`: interface, regras de poderes, temporizadores, sincronização P2P.
-- `.github/workflows/pages.yml`: publicação do GitHub Pages a cada push na `main`.
+### Arenas cíclicas
 
-## Dependências e atribuições
-- [chess.js 1.4.0](https://github.com/jhlywa/chess.js), BSD-2-Clause.
-- [PeerJS 1.5.5](https://github.com/peers/peerjs), MIT. Servidor de sinalização gratuito, sem SLA.
-- GitHub Pages e GitHub Actions.
-- As figuras históricas são representadas por símbolos Unicode, sem usar retratos de terceiros.
+Os confrontos alternam entre **Briga de Rua** (combate clássico), **Ritual Arcano** (especiais à distância) e **Tempestade de Tesla** (perigo elétrico no centro). Todas ainda pertencem à família de minijogos de luta 2D; corridas, jogos de ritmo e outros gêneros **ainda não foram feitos**.
 
-## Limitações
-- A versão estática não implementa o servidor Node original do MVP anterior.
-- O tempo é controlado pelo navegador anfitrião e a conexão desconectada pode encerrar o duelo.
-- Atualizar a página perde a sessão online.
-- Sem conta, pareamento público, ranking, reconexão automática ou anti-cheat.
-- Não houve teste ponta a ponta validado em dois navegadores físicos nesta entrega.
+### Assistências históricas
 
-Projeto pessoal, protótipo.
+- **Einstein**: onda gravitacional que empurra e atordoa, uma licença criativa inspirada na relatividade.
+- **Tesla**: descarga elétrica que causa dano e atordoa.
+- **Alan Turing**: algoritmo de cura.
+- **Capablanca**: contra-ataque que cura e atordoa.
+- **Ada Lovelace**: ataque bônus de combo.
+
+Estas são representações ficcionais, não descrições literais das contribuições históricas.
+
+## Campanha
+
+Três capítulos com IA simples. Cada vitória dá 100 XP; desbloqueios visuais são registrados localmente pelo navegador. XP **não aumenta dano, vida ou velocidade em PvP**. O progresso fica no `localStorage` do navegador e não é salvo na nuvem.
+
+## Multiplayer e limitações
+
+O modo online usa **PeerJS 1.5.5 + WebRTC**. O anfitrião simula o combate e valida jogadas; o convidado envia comandos e recebe snapshots. Ambos precisam de uma conexão estável e devem manter a página aberta. O serviço gratuito de sinalização depende de terceiros, e algumas redes bloqueiam WebRTC. Não há reconexão automática, contas, anti-cheat ou matchmaking. Os controles P2P de combate ainda **precisam de teste prático em duas redes**; latência pode atrapalhar.
+
+**Importante:** a modalidade é uma variante híbrida de xadrez. Recuar após um combate *passa a vez*, e perder a revanche pode remover a peça atacando sem uma captura tradicional. Portanto, não é xadrez competitivo padrão. Xeque, movimentos legais, roque e promoção são validados por `chess.js` no tabuleiro, mas as mudanças especiais podem afetar histórico/castling/draws.
+
+## Executar localmente
+
+Requer Node.js 20+ apenas para o servidor de arquivos, sem instalação de bibliotecas:
+
+```bash
+npm run dev
+```
+
+Abra http://localhost:3000. Bibliotecas `chess.js` e PeerJS vêm de CDN quando houver conexão com a internet. Para verificar o motor de combate:
+
+```bash
+npm test
+```
+
+## Implantação
+
+Site estático preparado para GitHub Pages. O workflow `.github/workflows/pages.yml` já existente na branch `main` publica automaticamente a raiz quando recebe um push.
+
+## Estrutura
+
+- `index.html`: interface do jogo, tela de preparação, overlay da luta.
+- `style.css`: design e acessibilidade básica, layout responsivo.
+- `app.js`: regras de fluxo, tabuleiro, campanha, rede P2P, canvas 2D e controles.
+- `combat.mjs`: simulação do combate isolada, sem dependências externas.
+- `tests/combat.test.mjs`: testes automatizados do núcleo.
+- `server.mjs`: servidor HTTP local com Node sem dependências.
+
+## Validação desta versão
+
+O motor de combate passou **10 testes automatizados** em Node.js. JavaScript passou por checagem de sintaxe. Ainda não houve verificação ponta a ponta real em dois computadores e o navegador automatizado local deste ambiente bloqueou navegação por política, portanto a interface deve ser tratada como **playtest**.
+
+### Créditos e licenças
+
+`chess.js` BSD-2-Clause, `PeerJS` MIT. Figuras desenhadas diretamente no Canvas com formas vetoriais; sem imagens/sprites de Dragon Ball FighterZ, Super Smash Bros ou outros jogos protegidos.

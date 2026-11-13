@@ -2,50 +2,31 @@
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#101823">
-<meta name="description" content="Xadrucas: arena de xadrez 2D com mestres históricos, habilidades e multiplayer entre amigos.">
-<title>XADRU CAS | Arena dos Mestres</title>
+<meta name="theme-color" content="#10111e"><meta name="description" content="Xadrucas: o xadrez decide quem luta. Um jogo de tabuleiro com arenas 2D, assistências históricas e campanha.">
+<title>Xadrucas: Arena dos Impossíveis</title>
 <link rel="stylesheet" href="./style.css">
 <script defer src="https://cdn.jsdelivr.net/npm/peerjs@1.5.5/dist/peerjs.min.js"></script>
 <script type="module" src="./app.js"></script>
 </head>
 <body>
-<div class="shell">
-<header class="top"><div class="logo"><span class="logoicon">♞</span><div><div class="wordmark">XADRU<span>CAS</span></div><small>ARENA DOS MESTRES <b>ALPHA 0.2</b></small></div></div><div class="online-led"><i></i><span id="connection">Pronto para jogar</span></div></header>
-<main class="layout">
-<aside class="panel settings"><div class="kicker">01 / PREPARAÇÃO</div><h2>Escolha seu duelo</h2><p>Posições rápidas, mestres históricos e um pouco de caos organizado.</p>
-<div class="tabs"><button id="tab-local" class="selected">Mesmo aparelho</button><button id="tab-online">Com amigo online</button></div>
-<div id="settings-local">
-<label>Cenário inicial<select id="local-preset"><option value="random">✦ Surpresa equilibrada</option><option value="duelo">Duelo dos Reis</option><option value="torres">Fortaleza</option><option value="arcanos">Conselho Arcano</option><option value="relampago">Guerra Relâmpago</option></select></label>
-<label>Tempo por jogador<select id="local-minutes"><option value="1">1 minuto</option><option value="3">3 minutos</option><option value="5" selected>5 minutos</option><option value="10">10 minutos</option></select></label>
-<label>Mestre das claras<select id="hero-white"></select></label>
-<label>Mestre das escuras<select id="hero-black"></select></label>
-<button id="start-local" class="primary">⚔ Iniciar duelo local</button>
-</div>
-<div id="settings-online" hidden>
-<label>Seu nome<input id="online-name" maxlength="20" placeholder="Seu nome" value="Tom"></label>
-<label>Seu mestre<select id="online-hero"></select></label>
-<label>Cenário<select id="online-preset"><option value="random">✦ Surpresa equilibrada</option><option value="duelo">Duelo dos Reis</option><option value="torres">Fortaleza</option><option value="arcanos">Conselho Arcano</option><option value="relampago">Guerra Relâmpago</option></select></label>
-<label>Tempo<select id="online-minutes"><option value="1">1 minuto</option><option value="3">3 minutos</option><option value="5" selected>5 minutos</option><option value="10">10 minutos</option></select></label>
-<button id="create-room" class="primary">✦ Criar sala</button>
-<div class="separate">OU ENTRE NA SALA DO AMIGO</div>
-<label>Código da sala<input id="join-code" placeholder="Cole o código recebido" spellcheck="false"></label>
-<button id="join-room" class="secondary">Entrar na sala</button>
-<div id="invite-box" hidden><div class="kicker">CONVITE</div><div id="room-id" class="room-id"></div><button id="copy-link" class="secondary">Copiar link para Lucas</button></div>
-<p class="tiny">Salas P2P temporárias. Ambos precisam manter a página aberta. Algumas redes bloqueiam conexão direta; o serviço gratuito de sinalização pode ficar indisponível.</p>
-</div>
-<div class="master-preview"><div id="hero-symbol" class="master-symbol">⚛</div><div><small>SEU MESTRE</small><strong id="hero-title">Albert Einstein</strong><span id="hero-skill">Relatividade</span><p id="hero-description"></p></div></div>
+<div class="noise"></div>
+<header class="top"><a href="./" class="brand"><span class="mark">♞</span><span><strong>XADRU<span>CAS</span></strong><small>ARENA DOS IMPOSSÍVEIS <b>v0.3 PLAYTEST</b></small></span></a><div class="badge"><span class="dot"></span><span id="net">Pronto para jogar</span></div></header>
+<main class="grid">
+<aside class="panel menu"><div class="eyebrow">01 / MONTE O CONFRONTO</div><h2>Seu tabuleiro.<br><em>Suas regras.</em></h2><p>Uma captura não é automática. Quando duas peças se encontram, começa a pancadaria.</p>
+<div class="tabs" role="group" aria-label="Modo de jogo"><button id="mode-local" class="active">Duelo local</button><button id="mode-online">Online</button><button id="mode-campaign">Campanha</button></div>
+<div id="local-fields"><label>Cenário<select id="scene-local"><option value="random">Surpresa espelhada</option><option value="duelo">Duelo dos Reis</option><option value="torres">Fortaleza</option><option value="arcanos">Conselho Arcano</option><option value="relampago">Guerra Relâmpago</option></select></label><label>Tempo por lado<select id="minutes-local"><option value="3">3 minutos</option><option value="5" selected>5 minutos</option><option value="10">10 minutos</option></select></label><label>Assistência das brancas<select id="master-white"></select></label><label>Assistência das pretas<select id="master-black"></select></label><button id="start-local" class="main-btn">COMEÇAR DUELO <span>↗</span></button></div>
+<div id="online-fields" hidden><label>Seu nome<input id="player-name" maxlength="20" value="Jogador" autocomplete="nickname"></label><label>Sua assistência<select id="master-online"></select></label><label>Cenário<select id="scene-online"><option value="random">Surpresa espelhada</option><option value="duelo">Duelo dos Reis</option><option value="torres">Fortaleza</option><option value="arcanos">Conselho Arcano</option><option value="relampago">Guerra Relâmpago</option></select></label><button id="create-room" class="main-btn">CRIAR SALA <span>↗</span></button><label>Código recebido<input id="room-code" placeholder="Cole o código de Lucas" spellcheck="false"></label><button id="join-room" class="ghost-btn">ENTRAR NA SALA</button><div id="invite" hidden><div class="eyebrow">LINK DA SALA</div><div id="room-label" class="room-label"></div><button id="copy-invite" class="ghost-btn">COPIAR CONVITE</button></div><p class="tiny">Conexão direta P2P experimental. Depende do PeerJS e das condições da rede; o anfitrião controla a simulação.</p></div>
+<div id="campaign-fields" hidden><div class="campaign-card"><div class="eyebrow">MODO HISTÓRIA</div><strong id="campaign-title">A PRIMEIRA COROA</strong><p id="campaign-desc">Vença 3 arenas contra a IA. Ganhe XP e desbloqueie aparências.</p><div id="campaign-progress"></div></div><label>Sua assistência<select id="master-campaign"></select></label><button id="start-campaign" class="main-btn">JOGAR CAPÍTULO <span>↗</span></button><button id="reset-progress" class="link-btn">Zerar progresso da campanha</button></div>
+<div class="master-box"><span class="icon" id="master-icon">⚛</span><div><span class="eyebrow">ASSISTÊNCIA HISTÓRICA</span><strong id="master-name">Albert Einstein</strong><p id="master-effect">Pulso gravitacional</p></div></div>
 </aside>
-<section class="arena"><div class="heading"><div class="kicker">02 / CAMPO DE BATALHA</div><h1>A glória é uma jogada.</h1><div id="scenario" class="scenario">Duelo dos Reis</div></div>
-<div class="battle">
-<div class="fighter"><div class="avatar" id="icon-top">♛</div><div class="fighter-name"><strong id="name-top">Escuras</strong><span id="hero-top">Alan Turing</span></div><span id="used-top" class="ready">PODER PRONTO</span><div id="time-top" class="clock">05:00</div></div>
-<div class="board-wrap"><div id="board" class="board" role="grid" aria-label="Tabuleiro de xadrez"></div><div id="impact" class="impact" aria-hidden="true"></div></div>
-<div class="fighter"><div class="avatar" id="icon-bottom">⚛</div><div class="fighter-name"><strong id="name-bottom">Claras</strong><span id="hero-bottom">Albert Einstein</span></div><span id="used-bottom" class="ready">PODER PRONTO</span><div id="time-bottom" class="clock active">05:00</div></div>
-<div class="battle-footer"><div id="status" class="status" role="status">Escolha os mestres e inicie uma partida.</div><div class="buttons"><button id="skill" class="power" disabled>✦ Usar habilidade</button><button id="rematch" class="secondary" hidden>↻ Revanche</button></div></div>
-</div><div class="hint" id="hint">Selecione uma peça e depois uma casa destacada.</div>
+<section class="center"><div class="arena-head"><div><div class="eyebrow">02 / TABULEIRO DE GUERRA</div><h1>XEQUE. <span>OU COMBATE.</span></h1></div><div class="stage" id="stage">Duelo dos Reis</div></div>
+<div class="game-panel"><div class="player-line" id="line-black"><div class="player-icon">♚</div><div class="player-id"><b id="name-black">Pretas</b><span id="assist-black">Tesla</span></div><div class="player-clock" id="clock-black">05:00</div></div><div class="board-holder"><div id="board" class="board" role="grid" aria-label="Tabuleiro de combate"></div></div><div class="player-line" id="line-white"><div class="player-icon">♔</div><div class="player-id"><b id="name-white">Brancas</b><span id="assist-white">Einstein</span></div><div class="player-clock" id="clock-white">05:00</div></div><div id="message" class="message" role="status">Escolha um modo e comece um duelo.</div><div class="game-actions"><button id="new-game" class="ghost-btn">↻ REINICIAR</button><button id="help" class="ghost-btn">? COMO JOGAR</button></div></div>
 </section>
-<aside class="panel log"><div class="kicker">03 / CRÔNICAS</div><h2>Registro de batalha</h2><div id="moves" class="moves">Ainda não há lances.</div><hr><div class="kicker">O CÓDIGO DOS MESTRES</div><div class="rule"><b>⚖ Justiça primeiro</b><p>Cenários com os mesmos materiais para os dois jogadores.</p></div><div class="rule"><b>✷ Uma habilidade</b><p>Um poder por mestre e por partida, ativado na própria vez.</p></div><div class="rule"><b>♜ Xadrez real</b><p>Xeque, mate, roque, promoção, en passant e empates preservados.</p></div></aside>
+<aside class="panel codex"><div class="eyebrow">03 / CÓDIGO DE COMBATE</div><h2>A captura<br><em>se conquista.</em></h2><div class="rule"><b>01</b><div><strong>Desafie</strong><p>Mova normalmente no tabuleiro. Ao tentar capturar, a arena 2D abre antes da jogada.</p></div></div><div class="rule"><b>02</b><div><strong>Vença a luta</strong><p>Peões são ágeis, torres são tanques, bispos lançam magia e cada classe luta de um jeito.</p></div></div><div class="rule"><b>03</b><div><strong>Arrisque tudo</strong><p>Perdeu atacando? Recuar mantém sua peça. Dobrar a aposta pode custar sua unidade.</p></div></div><div class="rule"><b>04</b><div><strong>Chame um gênio</strong><p>Einstein dobra a gravidade. Tesla descarrega eletricidade. As assistências valem uma vez por luta.</p></div></div><div class="eyebrow log-title">CRÔNICAS</div><div id="log" class="log">O próximo capítulo ainda não começou.</div></aside>
 </main>
-<footer>FEITO PARA DUELOS ENTRE AMIGOS • SEM CONTAS • SEM MICROTRANSAÇÕES</footer>
-</div><div id="toast" class="toast" role="status" aria-live="polite"></div>
-</body></html>
+<div id="overlay" class="overlay" hidden><div class="combat-window"><div class="combat-top"><div><span class="eyebrow" id="combat-label">CAPTURA CONTESTADA</span><h2 id="combat-title">DUELO DE ARENA</h2></div><div class="combat-timer" id="combat-timer">20</div></div><div class="health"><div><div class="health-name" id="health-white-label">BRANCAS</div><div class="bar"><div id="hp-white" class="fill white"></div></div></div><span class="vs">VS</span><div><div class="health-name right" id="health-black-label">PRETAS</div><div class="bar"><div id="hp-black" class="fill black"></div></div></div></div><canvas id="fight" width="960" height="450" aria-label="Arena de luta 2D entre peças"></canvas><div id="decision" class="decision" hidden><div class="eyebrow">O ATACANTE PERDEU A PRIMEIRA LUTA</div><h3>RECUAR OU TUDO OU NADA?</h3><p>Recuar consome sua vez e preserva a peça. Se apostar numa revanche e perder, sua peça é eliminada.</p><div><button id="retreat" class="ghost-btn">RECUAR</button><button id="all-in" class="main-btn">⚡ TUDO OU NADA</button></div></div><div class="combat-foot"><div id="combat-status">Prepare-se para lutar.</div><div class="controls"><span>LOCAL BRANCAS: <b>A/D W F G H S</b></span><span>LOCAL PRETAS: <b>←/→ ↑ J K L ↓</b></span><span>ONLINE: <b>A/D W F G H S</b></span></div></div><div class="touch" id="touch-controls"><button data-touch="left" aria-label="Mover para esquerda">◀</button><button data-touch="right" aria-label="Mover para direita">▶</button><button data-touch="jump">↑</button><button data-touch="light">SOCO</button><button data-touch="heavy">ESPECIAL</button><button data-touch="assist">ASSIST</button><button data-touch="guard">DEFESA</button></div></div></div>
+<dialog id="how"><h2>Como funciona</h2><p>O tabuleiro usa movimentos legais de xadrez. Toda tentativa de captura abre uma luta 2D. Se o atacante vencer, a captura acontece. Se perder, escolhe entre recuar e arriscar uma última luta.</p><p>Na luta, use direção, pulo, ataque leve, especial, assistência histórica e defesa. O relógio do tabuleiro fica pausado durante o combate. Em partidas locais, cada jogador usa suas próprias teclas.</p><p>O modo campanha usa IA simples. Experiência desbloqueia apenas visuais, para não dar vantagem acumulada no multiplayer.</p><button id="close-how" class="main-btn">ENTENDI</button></dialog>
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+<footer>FEITO PARA TOM E LUCAS • ZERO MICROTRANSAÇÕES • PANCADARIA E ESTRATÉGIA</footer>
+</body>
+</html>
