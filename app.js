@@ -117,7 +117,7 @@ function renderBoard(){
  const legal=choice?game.moves({square:choice,verbose:true}):[],frag=document.createDocumentFragment();
  for(const r of ranks)for(const f of files){const sq=f+r,p=game.get(sq),isLight=(files.indexOf(f)+ranks.indexOf(r))%2===0,b=document.createElement('button');b.type='button';b.className=`sq ${isLight?'light':'dark'}${choice===sq?' chosen':''}${legal.some(m=>m.to===sq)?' legal':''}${legal.some(m=>m.to===sq&&m.captured)?' capture':''}`;
   b.setAttribute('role','gridcell');b.setAttribute('aria-label',p?`${names[p.type]} ${p.color==='w'?'branco':'preto'} em ${sq}`:`Casa ${sq}`);
-  if(p){const e=document.createElement('span');e.className=`piece ${p.color}`;e.textContent=symbols[p.color][p.type];b.append(e);}b.onclick=()=>tapSquare(sq);frag.append(b);
+  if(p){const e=document.createElement('span');e.className=`piece ${p.color}${mode==='campaign'&&p.color==='w'&&progress.wins?(progress.wins>=3?' campaign-legendary':' campaign-bronze'):''}`;e.textContent=symbols[p.color][p.type];b.append(e);}b.onclick=()=>tapSquare(sq);frag.append(b);
  }board.replaceChildren(frag);
 }
 function tapSquare(sq){
